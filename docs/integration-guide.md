@@ -9,8 +9,8 @@ This guide explains how to integrate Everything Claude Code (ECC) with OpenClaw,
 ### What You Get
 
 - **37 Independent Agents**: Each ECC agent runs as an isolated OpenClaw agent
-- **86 Commands**: All ECC commands available via `/command_name` syntax
-- **Multi-Channel Access**: Use ECC commands from WhatsApp, Telegram, Discord, etc.
+- **86 Tools**: All ECC commands available via `/tool_name` syntax
+- **Multi-Channel Access**: Use ECC tools from WhatsApp, Telegram, Discord, etc.
 - **Agent Isolation**: Each command uses its dedicated agent (no context mixing)
 
 ## Architecture
@@ -141,11 +141,11 @@ function readCommand(name: string) {
 }
 
 export default definePluginEntry({
-  id: "ecc-commands",
-  name: "ECC Commands",
+  id: "ecc",
+  name: "ECC",
   
   async register(api) {
-    api.registerCommand({
+    api.registerTool({
       name: "gan_build",  // kebab-case → snake_case
       description: "GAN 式开发循环",
       parameters: Type.Object({
@@ -154,7 +154,7 @@ export default definePluginEntry({
       }),
       async execute(_id, params) {
         const command = readCommand("gan-build");
-        const result = await api.runtime.sessions_spawn({
+        const result = await api.runtime.sessionsSpawn({
           agentId: "planner",  // ECC agent ID
           task: `${command}\n\nBrief: ${params.brief}`,
           label: "gan-build",
@@ -169,7 +169,7 @@ export default definePluginEntry({
       },
     });
     
-    // ... repeat for all 86 commands
+    // ... repeat for all 86 tools
   },
 });
 ```
@@ -277,24 +277,24 @@ Plugins (X/Y loaded)
 ┌──────────────┬──────────────┬──────────┬──────────┬────────────────────────────────────┬─────────┐
 │ Name         │ ID           │ Format   │ Status   │ Source                             │ Version │
 ├──────────────┼──────────────┼──────────┼──────────┼────────────────────────────────────┼─────────┤
-│ ECC Commands │ ecc-commands │ openclaw │ loaded   │ ~/.openclaw/plugins/ecc-commands/  │ 1.0.0   │
+│ ECC │ ecc │ openclaw │ loaded   │ ~/.openclaw/plugins/ecc/  │ 1.0.0   │
 └──────────────┴──────────────┴──────────┴──────────┴────────────────────────────────────┴─────────┘
 ```
 
-### Test Commands
+### Test Tools
 
 ```bash
-# Test high-priority commands
+# Test high-priority tools
 openclaw agent --agent main --message "/gan_build test"
 openclaw agent --agent main --message "/code_review"
 openclaw agent --agent main --message "/e2e"
 
-# Test language-specific commands
+# Test language-specific tools
 openclaw agent --agent main --message "/cpp_build ."
 openclaw agent --agent main --message "/go_review"
 openclaw agent --agent main --message "/python_test"
 
-# Test tool commands
+# Test tools
 openclaw agent --agent main --message "/security_scan"
 openclaw agent --agent main --message "/checkpoint"
 openclaw agent --agent main --message "/context_budget"
@@ -324,10 +324,10 @@ openclaw gateway restart
 
 ```bash
 # Check plugin config
-cat ~/.openclaw/plugins/ecc-commands/openclaw.plugin.json
+cat ~/.openclaw/plugins/ecc/openclaw.plugin.json
 
 # Check plugin syntax
-cd ~/.openclaw/plugins/ecc-commands
+cd ~/.openclaw/plugins/ecc
 npm install
 npx tsc --noEmit
 
@@ -405,20 +405,20 @@ Edit `~/.openclaw/openclaw.json`:
 
 ## Contributing
 
-### Adding New Commands
+### Adding New Tools
 
 1. Create `commands/my-command.md`
 2. Add to `plugin/index.ts`:
    ```typescript
-   api.registerCommand({
-     name: "my_command",
-     description: "My command description",
+   api.registerTool({
+     name: "my_tool",
+     description: "My tool description",
      parameters: Type.Object({
        // Define parameters
      }),
      async execute(_id, params) {
        const command = readCommand("my-command");
-       const result = await api.runtime.sessions_spawn({
+       const result = await api.runtime.sessionsSpawn({
          agentId: "chief-of-staff",
          task: `${command}\n\nParams: ${JSON.stringify(params)}`,
          label: "my-command",
