@@ -1,7 +1,7 @@
 {
-  "id": "openclaw-commands",
-  "name": "OpenClaw Commands",
-  "description": "Everything Claude Code commands for OpenClaw",
+  "id": "ecc",
+  "name": "ECC",
+  "description": "Everything Claude Code - Core Plugin",
   "configSchema": {
     "type": "object",
     "additionalProperties": false

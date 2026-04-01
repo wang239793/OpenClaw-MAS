@@ -1,5 +1,5 @@
 {
-  "name": "@local/openclaw-commands",
+  "name": "@local/ecc",
   "version": "1.0.0",
   "type": "module",
   "openclaw": {
