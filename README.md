@@ -118,6 +118,17 @@ cost-tracker       # Track token usage
 
 **Full documentation**: See [`hooks/README.md`](./hooks/README.md)
 
+### Sync Hooks
+
+```bash
+# ECC: hooks/
+# OpenClaw: ~/.openclaw/hooks/
+
+./openclaw/hooks/install-hooks.sh
+```
+
+**Rule**: Run installer script, hooks auto-configure!
+
 ---
 
 ## Architecture
@@ -127,15 +138,15 @@ ECC Project              OpenClaw
 ─────────────────        ─────────────────
 
 agents/              →   ~/.openclaw/workspace-*/AGENTS.md
-commands/            →   plugin/index.ts (86 commands)
+commands/            →   plugin/index.ts (86 tools)
 hooks/               →   ~/.openclaw/hooks/ (7 hooks)
-skills/              →   ~/.openclaw/skills/ (143 skills)
-rules/               →   ~/.openclaw/rules/ (12 languages)
+skills/              →   ~/.openclaw/skills/ (142 skills)
+rules/               →   ~/.openclaw/rules/ (14 languages)
 ```
 
 ---
 
-## Conversion Rules
+## Sync from ECC Project
 
 ### Agents
 
@@ -147,6 +158,28 @@ cp agents/planner.md ~/.openclaw/workspace-planner/AGENTS.md
 ```
 
 **Rule**: Direct copy, no modification needed!
+
+### Skills
+
+```bash
+# ECC: skills/
+# OpenClaw: ~/.openclaw/skills/
+
+cp -r skills/* ~/.openclaw/skills/
+```
+
+**Rule**: Direct copy, all 142 skills available in OpenClaw!
+
+### Rules
+
+```bash
+# ECC: rules/
+# OpenClaw: ~/.openclaw/rules/
+
+cp -r rules/* ~/.openclaw/rules/
+```
+
+**Rule**: Direct copy, 14 language rule-packs available!
 
 ### Commands
 
