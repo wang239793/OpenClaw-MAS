@@ -50,7 +50,32 @@ cost-tracker       # Track token usage
 - **37 Agents**: Each ECC agent becomes an independent OpenClaw agent
 - **86 Tools**: All ECC commands available as OpenClaw agent tools
 - **7 Hooks**: Converted from ECC hooks (4 shell scripts + 2 skills + internal)
+- **142 Skills**: All ECC skills available in OpenClaw
+- **14 Rule Packs**: Language-specific coding rules
+- **Dispatcher Plugin**: `/dispatch` command for intent-based tool routing
 - **Direct Mapping**: ECC `commands/*.md` → OpenClaw `api.registerTool()`
+
+---
+
+## Available Plugins
+
+### ECC Plugin (`ecc`)
+
+The core ECC plugin with 86 tools for GAN development, code review, testing, and more.
+
+```bash
+openclaw plugins list | grep ecc
+```
+
+### Dispatcher Plugin (`dispatcher`)
+
+Intent-based command router. Use `/dispatch` to let the agent choose the right tool:
+
+```bash
+/dispatch /plan
+/dispatch 帮我审查代码
+/dispatch 这个构建失败了分析一下
+```
 
 ---
 
@@ -142,6 +167,7 @@ commands/            →   plugin/index.ts (86 tools)
 hooks/               →   ~/.openclaw/hooks/ (7 hooks)
 skills/              →   ~/.openclaw/skills/ (142 skills)
 rules/               →   ~/.openclaw/rules/ (14 languages)
+dispatcher/          →   ~/.openclaw/plugins/dispatcher/
 ```
 
 ---
@@ -180,6 +206,20 @@ cp -r rules/* ~/.openclaw/rules/
 ```
 
 **Rule**: Direct copy, 14 language rule-packs available!
+
+### Dispatcher Plugin
+
+```bash
+# ECC: openclaw/dispatcher/
+# OpenClaw: ~/.openclaw/plugins/dispatcher/
+
+cp -r openclaw/dispatcher ~/.openclaw/plugins/
+cd ~/.openclaw/plugins/dispatcher
+npm install
+npx tsc
+```
+
+**Rule**: Copy, install deps, compile - then restart gateway!
 
 ### Commands
 
@@ -268,7 +308,8 @@ ls -la .git/hooks/pre-commit
 ## Documentation
 
 - [Integration Guide](./docs/integration-guide.md) - Full integration documentation
-- [Plugin Source](./plugin/index.ts) - 86 commands implementation
+- [Plugin Source](./plugin/index.ts) - 86 tools implementation
+- [Dispatcher Plugin](./dispatcher/index.ts) - Intent-based command routing
 - [Agent Script](./agents/create-agents.sh) - Automated agent creation
 - [Hooks Guide](./hooks/README.md) - Hooks installation and usage
 - [Hooks Conversion](./docs/hooks-conversion-guide.md) - How hooks are converted
@@ -285,6 +326,14 @@ ls -la .git/hooks/pre-commit
    api.registerTool({ name: "my_tool", ... })
    ```
 3. Test: `/my_tool`
+
+### Add New Dispatcher Routes
+
+The dispatcher plugin uses LLM to understand user intent. No code changes needed - just use natural language:
+
+```bash
+/dispatch <your request>
+```
 
 ### Add New Hooks
 
