@@ -16,27 +16,43 @@ openclaw plugins install ./openclaw/plugin
 ./openclaw/agents/create-agents.sh
 ```
 
-### 3. Restart Gateway
+### 3. Install Hooks (Optional)
+
+```bash
+./openclaw/hooks/install-hooks.sh
+source ~/.zshrc  # or ~/.bashrc
+```
+
+### 4. Restart Gateway
 
 ```bash
 openclaw gateway restart
 ```
 
-### 4. Use Commands
+### 5. Use Commands
 
 ```bash
 # From chat
 /gan_build "Build a todo app"
 /code_review
 /e2e
-/context_budget
+/console_check
+/typecheck
+
+# From shell
+gpush              # Git push with checks
+tmux-dev "npm run dev"  # Dev server in tmux
+cost-tracker       # Track token usage
 ```
 
 ## What's Included
 
 - **37 Agents**: Each ECC agent becomes an independent OpenClaw agent
 - **86 Commands**: All ECC commands available as OpenClaw plugin commands
+- **7 Hooks**: Converted from ECC hooks (4 shell scripts + 2 skills + internal)
 - **Direct Mapping**: ECC `commands/*.md` → OpenClaw `api.registerCommand()`
+
+---
 
 ## Available Commands
 
@@ -80,27 +96,44 @@ openclaw gateway restart
 
 **Full list**: See [`plugin/index.ts`](./plugin/index.ts)
 
+---
+
+## Available Hooks
+
+### Shell Scripts
+
+| Script | Purpose | Usage |
+|--------|---------|-------|
+| `pre-commit-check.sh` | Pre-commit quality check | Auto-run by Git |
+| `git-push-check.sh` | Git push reminder | `gpush` |
+| `tmux-dev.sh` | Tmux wrapper for dev servers | `tmux-dev "npm run dev"` |
+| `cost-logger.sh` | Cost tracking | `cost-tracker` |
+
+### OpenClaw Skills
+
+| Skill | Command | Purpose |
+|-------|---------|---------|
+| `console-check` | `/console_check` | Check for console.log |
+| `typecheck` | `/typecheck` | TypeScript type checking |
+
+**Full documentation**: See [`hooks/README.md`](./hooks/README.md)
+
+---
+
 ## Architecture
 
 ```
 ECC Project              OpenClaw
-┌─────────────────┐      ┌──────────────────┐
-│ agents/         │      │ ~/.openclaw/     │
-│  ├─ planner.md  │  →   │  ├─ workspace-   │
-│  ├─ architect.md │      │  │  planner/    │
-│  └─ ...         │      │  │  └─ AGENTS.md│
-└─────────────────┘      │  └─ workspace-   │
-                         │     architect/   │
-┌─────────────────┐      │     └─ AGENTS.md │
-│ commands/       │      └──────────────────┘
-│  ├─ gan-build.md │     
-│  ├─ code-review. │      ┌──────────────────┐
-│  └─ ...         │  →   │ plugin/          │
-└─────────────────┘      │  ├─ index.ts     │
-                         │  │ (86 commands) │
-                         │  └─ ...          │
-                         └──────────────────┘
+─────────────────        ─────────────────
+
+agents/              →   ~/.openclaw/workspace-*/AGENTS.md
+commands/            →   plugin/index.ts (86 commands)
+hooks/               →   ~/.openclaw/hooks/ (7 hooks)
+skills/              →   ~/.openclaw/skills/ (143 skills)
+rules/               →   ~/.openclaw/rules/ (12 languages)
 ```
+
+---
 
 ## Conversion Rules
 
@@ -131,7 +164,7 @@ api.registerCommand({
   async execute(_id, params) {
     const command = readCommand("gan-build");
     const result = await api.runtime.sessions_spawn({
-      agentId: "planner",  // Maps to ECC agent
+      agentId: "planner",
       task: `${command}\n\nBrief: ${params.brief}`,
       label: "gan-build",
       runTimeoutSeconds: params.max_iterations * 60,
@@ -146,6 +179,12 @@ api.registerCommand({
 });
 ```
 
+### Hooks
+
+See [Hooks Conversion Guide](./docs/hooks-conversion-guide.md) for details.
+
+---
+
 ## Testing
 
 ```bash
@@ -157,7 +196,14 @@ openclaw plugins list
 
 # Test command
 openclaw agent --agent main --message "/gan_build test"
+
+# Test hooks
+~/.openclaw/hooks/pre-commit-check.sh  # Should run checks
+gpush                                   # Should show git status
+tmux-dev "npm run dev"                 # Should suggest tmux
 ```
+
+---
 
 ## Troubleshooting
 
@@ -172,15 +218,33 @@ openclaw plugins list | grep ecc
 openclaw gateway restart
 ```
 
+### Hook not working
+```bash
+# Check if script is executable
+chmod +x ~/.openclaw/hooks/*.sh
+
+# Reload shell aliases
+source ~/.zshrc
+
+# Check Git hook
+ls -la .git/hooks/pre-commit
+```
+
+---
+
 ## Documentation
 
 - [Integration Guide](./docs/integration-guide.md) - Full integration documentation
 - [Plugin Source](./plugin/index.ts) - 86 commands implementation
 - [Agent Script](./agents/create-agents.sh) - Automated agent creation
+- [Hooks Guide](./hooks/README.md) - Hooks installation and usage
+- [Hooks Conversion](./docs/hooks-conversion-guide.md) - How hooks are converted
+
+---
 
 ## Contributing
 
-To add new commands:
+### Add New Commands
 
 1. Create `commands/my-command.md`
 2. Add to `plugin/index.ts`:
@@ -189,7 +253,20 @@ To add new commands:
    ```
 3. Test: `/my_command`
 
+### Add New Hooks
+
+1. Create hook script in `hooks/`
+2. Add to `hooks/install-hooks.sh`
+3. Document in `hooks/README.md`
+
+---
+
 ## Related
 
 - [OpenClaw Documentation](https://docs.openclaw.ai)
 - [ECC Main Documentation](../README.md)
+- [ECC Hooks](../hooks/README.md)
+
+---
+
+**Last Updated**: 2026-04-01
