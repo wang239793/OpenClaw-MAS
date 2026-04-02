@@ -109,11 +109,11 @@ Dispatcher Agent 分析意图
   ↓
 调用 ECC tool: code_review()
   ↓
-ECC Plugin → sessionsSpawn(agentId: "reviewer")
+ECC Plugin → spawnAndWait(agentId: "reviewer")
   ↓
-Reviewer Agent 执行
+等待 Reviewer Agent 执行完成
   ↓
-返回结果
+返回完整结果给用户
 ```
 
 ### 关键点
@@ -121,6 +121,49 @@ Reviewer Agent 执行
 - **Tools 不是直接调用的命令**，而是由 Agent 调用的
 - 用户通过 `/dispatch` 与 Dispatcher Agent 交互
 - Dispatcher Agent 决定调用哪个 tool
+- **同步等待**：Dispatcher 会等待 tool 执行完成并返回结果
+- **完整结果**：用户收到的是实际执行结果，不是"已启动"
+
+### 执行模式
+
+ECC tools 使用 **同步等待模式** (`spawnAndWait`)：
+
+```typescript
+async function spawnAndWait(api, agentId, task, label, timeoutSeconds) {
+  // 1. 启动子会话
+  const runResult = await api.runtime.subagent.run({
+    sessionKey: agentId,
+    message: task,
+    deliver: false  // 不直接 deliver，由我们控制返回时机
+  });
+  
+  // 2. 等待完成
+  const waitResult = await api.runtime.subagent.waitForRun({
+    runId: runResult.runId,
+    timeoutMs: timeoutSeconds * 1000
+  });
+  
+  // 3. 处理错误/超时
+  if (waitResult.status === 'error') return { text: '❌ 执行失败' };
+  if (waitResult.status === 'timeout') return { text: '⏱️ 执行超时' };
+  
+  // 4. 获取并返回最终结果
+  const messages = await api.runtime.subagent.getSessionMessages({
+    sessionKey: agentId,
+    limit: 50
+  });
+  return { text: messages[messages.length - 1].content };
+}
+```
+
+**优点**：
+- ✅ 用户收到完整执行结果
+- ✅ Dispatcher 可以跟踪执行状态
+- ✅ 可以处理错误和超时
+
+**注意**：
+- ⏱️ 长时间任务会阻塞 Dispatcher（但主 agent 不受影响）
+- ⏱️ 可以通过 `max_iterations` 等参数控制超时时间
 
 ---
 

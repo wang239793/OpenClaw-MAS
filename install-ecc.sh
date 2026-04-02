@@ -14,7 +14,7 @@ banner() {
   echo ""
   echo -e "${BLUE}╔══════════════════════════════════════════╗${NC}"
   echo -e "${BLUE}║  🦞  ECC · OpenClaw Multi-Agent System  ║${NC}"
-  echo -e "${BLUE}║       安装向导                            ║${NC}"
+  echo -e "${BLUE}║       安装向导 (37 Agents)               ║${NC}"
   echo -e "${BLUE}╚══════════════════════════════════════════╝${NC}"
   echo ""
 }
@@ -317,7 +317,7 @@ echo -e "${GREEN}╚════════════════════
 echo ""
 echo "已安装："
 echo "  - Plugin:     1 个 (ecc，包含 86 tools + /dispatch 命令)"
-echo "  - Agents:     36 个"
+echo "  - Agents:     37 个 (包括 dispatcher)"
 echo "  - Commands:   68 个"
 echo "  - Skills:     142 个"
 echo "  - Rules:      14 个语言"
