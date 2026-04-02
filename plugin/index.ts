@@ -14,7 +14,7 @@ function readCommand(name: string) {
 /**
  * 辅助函数：spawn 子会话并等待完成，返回最终结果
  */
-async function spawnAndWait(api: any, agentId: string, task: string, label: string, timeoutSeconds: number = 300) {
+async function spawnAndWait(api: any, agentId: string, task: string, label: string, timeoutSeconds: number = 0) {
   // 启动子会话
   const runResult = await api.runtime.subagent.run({
     sessionKey: agentId,
@@ -22,11 +22,12 @@ async function spawnAndWait(api: any, agentId: string, task: string, label: stri
     deliver: false
   });
   
-  // 等待完成
-  const waitResult = await api.runtime.subagent.waitForRun({
-    runId: runResult.runId,
-    timeoutMs: timeoutSeconds * 1000
-  });
+  // 等待完成（timeoutSeconds=0 表示无限等待）
+  const waitParams: any = { runId: runResult.runId };
+  if (timeoutSeconds > 0) {
+    waitParams.timeoutMs = timeoutSeconds * 1000;
+  }
+  const waitResult = await api.runtime.subagent.waitForRun(waitParams);
   
   if (waitResult.status === "error") {
     return { text: `❌ 执行失败：${waitResult.error}` };
