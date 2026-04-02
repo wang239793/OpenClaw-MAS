@@ -4,7 +4,24 @@ Run Everything Claude Code in OpenClaw - a multi-channel gateway (WhatsApp, Tele
 
 ## Quick Start
 
-### 1. Sync Assets from ECC Project
+### 方式一：一键安装（推荐）
+
+```bash
+# 从 ECC 项目根目录运行
+cd ~/path/to/everything-claude-code
+./openclaw/install-ecc.sh
+```
+
+脚本会自动：
+- 安装 ECC Plugin（86 tools + /dispatch 命令）
+- 创建 36 个 Agents
+- 复制 68 个 Commands
+- 复制 142 个 Skills
+- 复制 14 个语言 Rules
+- 安装 Hooks
+- 重启 Gateway
+
+### 方式二：手动安装
 
 ```bash
 # From ECC project root
@@ -12,9 +29,6 @@ cd ~/path/to/everything-claude-code
 
 # Copy plugin
 cp -r openclaw/plugin ~/.openclaw/plugins/ecc
-
-# Copy dispatcher plugin
-cp -r openclaw/dispatcher ~/.openclaw/plugins/dispatcher
 
 # Copy skills (142 skills)
 cp -r skills/* ~/.openclaw/skills/
@@ -26,58 +40,7 @@ cp -r rules/* ~/.openclaw/rules/
 cp -r commands/* ~/.openclaw/commands/
 ```
 
-### 2. Install Plugin Dependencies
-
-```bash
-# ECC plugin
-cd ~/.openclaw/plugins/ecc
-npm install
-npx tsc
-
-# Dispatcher plugin
-cd ~/.openclaw/plugins/dispatcher
-npm install
-npx tsc
-```
-
-### 3. Create Agents
-
-```bash
-./openclaw/agents/create-agents.sh
-```
-
-### 4. Install Hooks (Optional)
-
-```bash
-./openclaw/hooks/install-hooks.sh
-source ~/.zshrc  # or ~/.zshrc
-```
-
-### 5. Update OpenClaw Config
-
-Edit `~/.openclaw/openclaw.json`:
-
-```json
-{
-  "plugins": {
-    "allow": ["ecc", "dispatcher", ...],
-    "load": {
-      "paths": [
-        "~/.openclaw/plugins/ecc",
-        "~/.openclaw/plugins/dispatcher"
-      ]
-    }
-  }
-}
-```
-
-### 6. Restart Gateway
-
-```bash
-openclaw gateway restart
-```
-
-### 7. Use Tools
+### 使用 Tools
 
 **ECC tools are called by agents, not directly by users.**
 
