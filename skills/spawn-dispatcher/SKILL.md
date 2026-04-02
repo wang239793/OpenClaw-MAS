@@ -9,6 +9,23 @@ metadata:
 
 主 Agent 收到模糊任务请求时，spawn dispatcher agent 处理。
 
+## ⚠️ 强制执行规则
+
+**一旦触发此 skill，必须执行 spawn dispatcher agent。**
+
+不允许：跳过、返回 NO_REPLY、或说「不需要执行」。
+
+触发条件：
+- skill 被 read（即此 skill 被加载）
+- 用户请求匹配 When to Use 的场景
+
+执行动作：
+```
+sessions_spawn(agentId: "dispatcher", task: "用户请求：[原始请求内容]")
+```
+
+---
+
 ## When to Use
 
 ✅ **USE when:**
