@@ -207,14 +207,18 @@ install_rules() {
 install_hooks() {
   info "安装 Hooks..."
   
-  HOOKS_INSTALLER="$REPO_DIR/openclaw/hooks/install-hooks.sh"
+  HOOKS_SRC="$REPO_DIR/hooks"
+  HOOKS_DST="$OC_HOME/hooks"
   
-  if [ -x "$HOOKS_INSTALLER" ]; then
-    "$HOOKS_INSTALLER" 2>/dev/null || warn "Hooks 安装可能有警告"
-    log "Hooks 已安装"
-  else
-    warn "Hooks 安装脚本不存在：$HOOKS_INSTALLER"
+  if [ ! -d "$HOOKS_SRC" ]; then
+    warn "未找到 hooks 目录：$HOOKS_SRC"
+    return
   fi
+  
+  mkdir -p "$HOOKS_DST"
+  cp -r "$HOOKS_SRC/"* "$HOOKS_DST/" 2>/dev/null || true
+  
+  log "Hooks 已安装：$HOOKS_DST"
 }
 
 # ── Step 7: 更新配置 ─────────────────────────────────────────
