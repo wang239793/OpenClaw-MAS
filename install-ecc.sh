@@ -14,7 +14,7 @@ banner() {
   echo ""
   echo -e "${BLUE}╔══════════════════════════════════════════╗${NC}"
   echo -e "${BLUE}║  🦞  ECC · OpenClaw Multi-Agent System  ║${NC}"
-  echo -e "${BLUE}║       安装向导                            ║${NC}"
+  echo -e "${BLUE}║       安装向导 (37 Agents)               ║${NC}"
   echo -e "${BLUE}╚══════════════════════════════════════════╝${NC}"
   echo ""
 }
