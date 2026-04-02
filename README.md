@@ -200,7 +200,7 @@ Intent-based command router. Use `/dispatch` to let the agent choose the right t
 # ECC: hooks/
 # OpenClaw: ~/.openclaw/hooks/
 
-./openclaw/hooks/install-hooks.sh
+# Hooks are installed automatically by install-ecc.sh
 ```
 
 **Rule**: Run installer script, hooks auto-configure!
@@ -361,7 +361,7 @@ ls -la .git/hooks/pre-commit
 - [Integration Guide](./docs/integration-guide.md) - Full integration documentation
 - [Plugin Source](./plugin/index.ts) - 86 tools implementation
 - [Dispatcher Plugin](./dispatcher/index.ts) - Intent-based command routing
-- [Agent Script](./agents/create-agents.sh) - Automated agent creation
+- Agents are created automatically by `install-ecc.sh`
 - [Hooks Guide](./hooks/README.md) - Hooks installation and usage
 - [Hooks Conversion](./docs/hooks-conversion-guide.md) - How hooks are converted
 
@@ -389,7 +389,7 @@ The dispatcher plugin uses LLM to understand user intent. No code changes needed
 ### Add New Hooks
 
 1. Create hook script in `hooks/`
-2. Add to `hooks/install-hooks.sh`
+2. Hooks are installed automatically by `install-ecc.sh`
 3. Document in `hooks/README.md`
 
 ---

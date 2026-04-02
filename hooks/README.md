@@ -4,11 +4,16 @@ Converted from Everything Claude Code hooks for OpenClaw compatibility.
 
 ## Installation
 
-```bash
-# Install all hooks
-./install-hooks.sh
+Hooks are installed automatically when you run:
 
-# Or manual installation
+```bash
+./openclaw/install-ecc.sh
+```
+
+Or manual installation:
+
+```bash
+cp -r hooks/* ~/.openclaw/hooks/
 source ~/.zshrc  # or ~/.bashrc
 ```
 
