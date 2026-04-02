@@ -141,49 +141,9 @@ install_plugin() {
   mkdir -p "$PLUGIN_DST"
   cp -r "$PLUGIN_SRC/"* "$PLUGIN_DST/"
   
-  # 安装依赖
+  # 安装依赖并编译
   cd "$PLUGIN_DST"
   npm install --silent 2>/dev/null || npm install
-  
-  # 应用 spawnAndWait 修复（确保 tools 执行完成后返回结果）
-  info "应用 spawnAndWait 修复..."
-  node << 'NODEEOF'
-const { readFileSync, writeFileSync } = require('fs');
-const file = process.env.HOME + '/.openclaw/plugins/ecc/index.ts';
-let content = readFileSync(file, 'utf-8');
-
-// Add spawnAndWait helper if not present
-if (!content.includes('async function spawnAndWait')) {
-  const helper = `
-async function spawnAndWait(api, agentId, task, label, timeoutSeconds = 300) {
-  const runResult = await api.runtime.subagent.run({ sessionKey: agentId, message: task, deliver: false });
-  const waitResult = await api.runtime.subagent.waitForRun({ runId: runResult.runId, timeoutMs: timeoutSeconds * 1000 });
-  if (waitResult.status === 'error') return { text: '❌ 执行失败：' + waitResult.error };
-  if (waitResult.status === 'timeout') return { text: '⏱️ 执行超时（' + timeoutSeconds + '秒）' };
-  const messages = await api.runtime.subagent.getSessionMessages({ sessionKey: agentId, limit: 50 });
-  for (let i = messages.messages.length - 1; i >= 0; i--) {
-    const msg = messages.messages[i];
-    if (msg.role === 'assistant' && msg.content) return { text: msg.content };
-  }
-  return { text: '✅ ' + label + ' 已完成' };
-}
-`;
-  content = content.replace('function readCommand(name: string)', helper + '\nfunction readCommand(name: string)');
-}
-
-// Replace sessionsSpawn with spawnAndWait
-content = content.replace(
-  /const result = await api\.runtime\.sessionsSpawn\(\{[\s\S]*?agentId: "([^"]+)",[\s\S]*?task: `([^`]+)`,[\s\S]*?label: [`"]([^`"]+)[`"],[\s\S]*?runTimeoutSeconds: ([^,}]+),?[\s\S]*?\}\);[\s\S]*?return \{ content: \[{ type: "text", text: `[^`]+\\n 会话：\$\{result\.childSessionKey\}` }] \};/g,
-  (match, agentId, task, label, timeout) => {
-    return `return await spawnAndWait(\n          api,\n          "${agentId}",\n          \`${task.trim()}\`,\n          "${label}",\n          ${timeout.trim()}\n        );`;
-  }
-);
-
-writeFileSync(file, content);
-console.log('✅ Applied spawnAndWait fix');
-NODEEOF
-  
-  # 编译
   npx tsc --skipLibCheck 2>/dev/null || npx tsc
   
   log "ECC Plugin 已安装：$PLUGIN_DST"
