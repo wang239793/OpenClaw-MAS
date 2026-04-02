@@ -24,7 +24,7 @@ cd ~/path/to/everything-claude-code
 
 ## 使用方法
 
-### 方式一：通过 /dispatch 命令（推荐）
+### 通过 /dispatch 命令
 
 ```
 /dispatch 帮我做一个待办应用
@@ -34,12 +34,7 @@ cd ~/path/to/everything-claude-code
 
 Dispatcher Agent 会自动理解你的意图并调用正确的工具。
 
-### 方式二：让主 Agent 自动调用
-
-```
-帮我做一个待办应用      # 主 Agent 自动调用 gan_build
-审查一下代码            # 主 Agent 自动调用 code_review
-```
+**这是目前唯一支持的使用方式。**
 
 ---
 
@@ -124,8 +119,8 @@ Reviewer Agent 执行
 ### 关键点
 
 - **Tools 不是直接调用的命令**，而是由 Agent 调用的
-- 用户通过 `/dispatch` 或自然语言与主 Agent 交互
-- 主 Agent 或 Dispatcher Agent 决定调用哪个 tool
+- 用户通过 `/dispatch` 与 Dispatcher Agent 交互
+- Dispatcher Agent 决定调用哪个 tool
 
 ---
 
