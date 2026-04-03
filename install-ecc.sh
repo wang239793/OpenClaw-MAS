@@ -72,55 +72,60 @@ backup_existing() {
   log "备份完成：$BACKUP_DIR"
 }
 
-# ── Step 1: 注册 Agent Workspace（全量覆盖）─────────────────
+# ── Step 1: 注册 Agent Workspace（直接写入 openclaw.json）────
 create_workspaces() {
-  info "注册 Agent Workspace（全量覆盖）..."
+  info "注册 Agent Workspace..."
 
-  COUNT=0
-
-  register_agent() {
-    local agent_name="$1"
-    local ws="$2"
-
-    # 如果已注册，先删除再重建（全量覆盖）
-    if openclaw agents list --json 2>/dev/null \
-        | python3 -c "import json,sys; ids=[a['id'] for a in json.load(sys.stdin)]; exit(0 if '$agent_name' in ids else 1)" 2>/dev/null; then
-      openclaw agents delete "$agent_name" --force 2>/dev/null || true
-    fi
-
-    # 确保 workspace 目录存在
-    mkdir -p "$ws"
-
-    # 用 CLI 注册（写入 agents.list + 创建 agentDir）
-    openclaw agents add "$agent_name" \
-      --workspace "$ws" \
-      --non-interactive \
-      --json >/dev/null 2>&1 || {
-        warn "注册 $agent_name 失败，跳过"
-        return
-      }
-
-    COUNT=$((COUNT + 1))
-  }
-
-  # 注册 openclaw/agents/ 下的专家 agent
   AGENTS_DIR="$REPO_DIR/openclaw/agents"
-  if [ -d "$AGENTS_DIR" ]; then
-    for agent_dir in "$AGENTS_DIR"/*/; do
-      [ -d "$agent_dir" ] || continue
-      agent_name=$(basename "$agent_dir")
-      ws="$OC_HOME/workspace-$agent_name"
 
-      register_agent "$agent_name" "$ws"
-
-      # 覆盖写入所有 workspace 文件（AGENTS.md, SOUL.md 等）
-      for file in "$agent_dir"/*; do
-        [ -f "$file" ] && cp -f "$file" "$ws/"
-      done
-    done
+  if [ ! -d "$AGENTS_DIR" ]; then
+    warn "未找到 agents 目录：$AGENTS_DIR，跳过"
+    return
   fi
 
-  log "Agent 注册完成：共 $COUNT 个"
+  # 1. 批量创建 workspace 目录并复制文件
+  COUNT=0
+  for agent_dir in "$AGENTS_DIR"/*/; do
+    [ -d "$agent_dir" ] || continue
+    agent_name=$(basename "$agent_dir")
+    ws="$OC_HOME/workspace-$agent_name"
+    mkdir -p "$ws"
+    cp -f "$agent_dir"/* "$ws/" 2>/dev/null || true
+    COUNT=$((COUNT + 1))
+  done
+
+  # 2. 一次性批量写入 agents.list（直接操作 openclaw.json）
+  python3 << PYEOF
+import json, pathlib
+
+cfg_path = pathlib.Path.home() / '.openclaw' / 'openclaw.json'
+cfg = json.loads(cfg_path.read_text())
+
+agents_dir = pathlib.Path('$AGENTS_DIR')
+oc_home = pathlib.Path.home() / '.openclaw'
+
+# 收集所有专家 agent
+new_agents = []
+for agent_dir in sorted(agents_dir.iterdir()):
+    if not agent_dir.is_dir():
+        continue
+    agent_id = agent_dir.name
+    ws = str(oc_home / f'workspace-{agent_id}')
+    new_agents.append({'id': agent_id, 'workspace': ws})
+
+# 合并到 agents.list：保留现有非 ECC agent，替换 ECC agent
+agents_cfg = cfg.setdefault('agents', {})
+existing = agents_cfg.get('list', [])
+new_ids = {a['id'] for a in new_agents}
+# 保留不在本次安装列表里的现有 agent（如用户自定义 agent）
+kept = [a for a in existing if a['id'] not in new_ids]
+agents_cfg['list'] = kept + new_agents
+
+cfg_path.write_text(json.dumps(cfg, ensure_ascii=False, indent=2))
+print(f'  已写入 {len(new_agents)} 个 agent 到 agents.list（保留 {len(kept)} 个现有 agent）')
+PYEOF
+
+  log "Agent 注册完成：共 $COUNT 个（直接写入 openclaw.json）"
 }
 
 # ── Step 2: 生成并安装所有 Skills（全量覆盖）────────────────
@@ -375,8 +380,11 @@ verify_install() {
   log "Rules: $RULE_COUNT 个语言"
 
   # 检查 agents
-  AGENT_COUNT=$(openclaw agents list --json 2>/dev/null \
-    | python3 -c "import json,sys; print(len(json.load(sys.stdin)))" 2>/dev/null || echo "0")
+  AGENT_COUNT=$(python3 -c "
+import json, pathlib
+cfg = json.loads((pathlib.Path.home() / '.openclaw' / 'openclaw.json').read_text())
+print(len(cfg.get('agents', {}).get('list', [])))
+" 2>/dev/null || echo "0")
   log "Agents: $AGENT_COUNT 个已注册"
 
   # 检查 openclaw.json 关键配置
