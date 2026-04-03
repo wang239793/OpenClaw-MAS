@@ -1,10 +1,13 @@
 {
-  "id": "ecc",
-  "name": "ECC",
-  "description": "Everything Claude Code - Core Plugin",
+  "id": "ecc-hooks",
   "configSchema": {
     "type": "object",
-    "additionalProperties": false
-  },
-  "extensions": ["./dist/index.js"]
+    "additionalProperties": false,
+    "properties": {
+      "governanceCapture": {
+        "type": "boolean",
+        "description": "Enable governance event capture (set ECC_GOVERNANCE_CAPTURE=1 to activate)"
+      }
+    }
+  }
 }

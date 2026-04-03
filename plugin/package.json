@@ -1,20 +1,22 @@
 {
-  "name": "@local/ecc",
+  "name": "ecc-hooks",
   "version": "1.0.0",
+  "description": "ECC tool execution hooks for OpenClaw",
   "type": "module",
+  "main": "dist/index.mjs",
   "openclaw": {
     "extensions": [
-      "./dist/index.js"
-    ],
-    "compat": {
-      "pluginApi": ">=2026.3.24",
-      "minGatewayVersion": "2026.3.24"
-    }
+      "./dist/index.mjs"
+    ]
   },
-  "dependencies": {
-    "@sinclair/typebox": "^0.34.0"
+  "scripts": {
+    "build": "tsc --skipLibCheck",
+    "dev": "tsc --watch --skipLibCheck"
   },
   "devDependencies": {
-    "typescript": "^6.0.2"
+    "typescript": "^5.0.0"
+  },
+  "peerDependencies": {
+    "openclaw": "*"
   }
 }
