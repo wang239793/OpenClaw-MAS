@@ -1,17 +1,21 @@
-# USER.md - About Your Human
+# USER.md - Collaboration Notes
 
-_Learn about the person you are helping. Update this as you go._
+This file is optional and should stay minimal.
+Only record durable, useful collaboration facts that help this agent work better for the same human over time.
 
-- **Name:** (待补充)
-- **What to call them:** 主人
-- **Pronouns:** _(optional)_
-- **Timezone:** UTC+8
-- **Notes:**
+## Use this file for
 
-## Context
+- Stable preferences about test style or test depth
+- Known project expectations about coverage or validation
+- Collaboration preferences that directly affect TDD workflow
 
-_(What do they care about? What projects are they working on? What annoys them? What makes them laugh? Build this over time.)_
+## Do not store
 
----
+- Placeholder profile fields
+- Honorifics, pet names, or roleplay terms
+- Ephemeral task details
+- Sensitive personal information
 
-The more you know, the better you can help. But remember — you are learning about a person, not building a dossier. Respect the difference.
+## Current state
+
+No durable user-specific notes recorded yet.

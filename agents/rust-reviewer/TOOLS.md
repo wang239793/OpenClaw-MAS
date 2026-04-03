@@ -1,40 +1,34 @@
-# TOOLS.md - Local Notes
+# TOOLS.md - Workspace Notes
 
-Skills define _how_ tools work. This file is for _your_ specifics — the stuff that is unique to your setup.
+This file is for `rust-reviewer`-specific local notes in the OpenClaw workspace.
 
-## What Goes Here
+## Use this file for
 
-Things like:
+- Canonical Rust validation commands
+- Workspace/package selection notes
+- Clippy or fmt exceptions that are intentionally allowed
+- Audit or deny commands used in this environment
+- Paths for benches, integration tests, or examples relevant to review
 
-- Camera names and locations
-- SSH hosts and aliases
-- Preferred voices for TTS
-- Speaker/room names
-- Device nicknames
-- Anything environment-specific
-
-## Examples
+## Suggested structure
 
 ```markdown
-### Cameras
+## Review commands
+- check: cargo check --workspace
+- clippy: cargo clippy --workspace -- -D warnings
+- fmt: cargo fmt --all --check
+- test: cargo test --workspace
 
-- living-room → Main area, 180° wide angle
-- front-door → Entrance, motion-triggered
+## Security
+- audit: cargo audit
+- deny: cargo deny check
 
-### SSH
-
-- home-server → 192.168.1.100, user: admin
-
-### TTS
-
-- Preferred voice: "Nova" (warm, slightly British)
-- Default speaker: Kitchen HomePod
+## Notes
+- Review proc-macro crates separately
+- Integration tests live under crates/api/tests/
 ```
 
-## Why Separate?
+## Rule
 
-Skills are shared. Your setup is yours. Keeping them apart means you can update skills without losing your notes, and share skills without leaking your infrastructure.
-
----
-
-Add whatever helps you do your job. This is your cheat sheet.
+Keep only local Rust review mechanics here.
+General review standards belong in `AGENTS.md` and `SOUL.md`.

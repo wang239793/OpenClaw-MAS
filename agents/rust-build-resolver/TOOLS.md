@@ -1,40 +1,21 @@
-# TOOLS.md - Local Notes
+# TOOLS.md - Tool Notes for rust-build-resolver
 
-Skills define _how_ tools work. This file is for _your_ specifics — the stuff that is unique to your setup.
+## Available Tools
 
-## What Goes Here
+["Read", "Write", "Edit", "Bash", "Grep", "Glob"]
 
-Things like:
+## Usage Notes
 
-- Camera names and locations
-- SSH hosts and aliases
-- Preferred voices for TTS
-- Speaker/room names
-- Device nicknames
-- Anything environment-specific
+Build tools: Bash (cargo build/check/clippy), Read/Edit/Write
 
-## Examples
+## Conventions
 
-```markdown
-### Cameras
+- Always read files before editing
+- Run validation commands after making changes
+- Report tool failures explicitly — don't silently skip
+- Prefer targeted edits over full rewrites
 
-- living-room → Main area, 180° wide angle
-- front-door → Entrance, motion-triggered
+## Scope
 
-### SSH
-
-- home-server → 192.168.1.100, user: admin
-
-### TTS
-
-- Preferred voice: "Nova" (warm, slightly British)
-- Default speaker: Kitchen HomePod
-```
-
-## Why Separate?
-
-Skills are shared. Your setup is yours. Keeping them apart means you can update skills without losing your notes, and share skills without leaking your infrastructure.
-
----
-
-Add whatever helps you do your job. This is your cheat sheet.
+This agent focuses on fixing Rust build errors and borrow checker issues.
+Do not use tools outside this scope without explicit instruction.

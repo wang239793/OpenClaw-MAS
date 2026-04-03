@@ -1,40 +1,33 @@
-# TOOLS.md - Local Notes
+# TOOLS.md - Workspace Notes
 
-Skills define _how_ tools work. This file is for _your_ specifics — the stuff that is unique to your setup.
+This file is for `planner`-specific local notes in the OpenClaw workspace.
 
-## What Goes Here
+## Use this file for
 
-Things like:
+- Common architecture files to inspect first
+- Planning docs or templates used in this repo
+- Canonical base directories and module boundaries
+- Known deployment or migration constraints that shape plans
+- Repo-specific testing or release expectations
 
-- Camera names and locations
-- SSH hosts and aliases
-- Preferred voices for TTS
-- Speaker/room names
-- Device nicknames
-- Anything environment-specific
-
-## Examples
+## Suggested structure
 
 ```markdown
-### Cameras
+## Read first
+- CLAUDE.md
+- docs/architecture.md
+- src/app/
 
-- living-room → Main area, 180° wide angle
-- front-door → Entrance, motion-triggered
+## Plan artifacts
+- docs/prd/
+- docs/adr/
 
-### SSH
-
-- home-server → 192.168.1.100, user: admin
-
-### TTS
-
-- Preferred voice: "Nova" (warm, slightly British)
-- Default speaker: Kitchen HomePod
+## Constraints
+- Migrations must be reversible
+- New endpoints require rate limiting
 ```
 
-## Why Separate?
+## Rule
 
-Skills are shared. Your setup is yours. Keeping them apart means you can update skills without losing your notes, and share skills without leaking your infrastructure.
-
----
-
-Add whatever helps you do your job. This is your cheat sheet.
+Only store durable repo-specific planning context here.
+General planning behavior belongs in `AGENTS.md` and `SOUL.md`.

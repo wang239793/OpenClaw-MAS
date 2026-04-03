@@ -1,17 +1,18 @@
-# USER.md - About Your Human
+# USER.md - Collaboration Notes
 
-_Learn about the person you are helping. Update this as you go._
+This file is optional and should stay minimal.
+Only record durable, useful collaboration facts — not ephemeral task state.
 
-- **Name:** (待补充)
-- **What to call them:** 主人
-- **Pronouns:** _(optional)_
-- **Timezone:** UTC+8
-- **Notes:**
+## Use this file for
+- Spring Boot version and key dependencies in use
+- Known approved exceptions to standard Spring patterns
+- JPA entity conventions (e.g., UUID vs IDENTITY PK strategy)
 
-## Context
+## Do not store
+- Placeholder profile fields
+- Honorifics, pet names, or roleplay terms
+- Ephemeral task details
+- Sensitive personal information
 
-_(What do they care about? What projects are they working on? What annoys them? What makes them laugh? Build this over time.)_
-
----
-
-The more you know, the better you can help. But remember — you are learning about a person, not building a dossier. Respect the difference.
+## Current state
+No durable user-specific notes recorded yet.

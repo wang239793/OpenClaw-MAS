@@ -1,40 +1,32 @@
-# TOOLS.md - Local Notes
+# TOOLS.md - Workspace Notes
 
-Skills define _how_ tools work. This file is for _your_ specifics — the stuff that is unique to your setup.
+This file is for `gan-evaluator`-specific local notes in the OpenClaw workspace.
 
-## What Goes Here
+## Use this file for
 
-Things like:
+- Default app URL and port for evaluation
+- Playwright or browser automation commands available in this environment
+- Fallback evaluation commands when live browser control is unavailable
+- Locations of rubric, spec, state, and feedback files
+- Screenshot or artifact storage conventions
 
-- Camera names and locations
-- SSH hosts and aliases
-- Preferred voices for TTS
-- Speaker/room names
-- Device nicknames
-- Anything environment-specific
-
-## Examples
+## Suggested structure
 
 ```markdown
-### Cameras
+## Target app
+- url: http://localhost:3000
 
-- living-room → Main area, 180° wide angle
-- front-door → Entrance, motion-triggered
+## Evaluation inputs
+- spec: gan-harness/spec.md
+- rubric: gan-harness/eval-rubric.md
+- state: gan-harness/generator-state.md
 
-### SSH
-
-- home-server → 192.168.1.100, user: admin
-
-### TTS
-
-- Preferred voice: "Nova" (warm, slightly British)
-- Default speaker: Kitchen HomePod
+## Browser tools
+- playwright: available
+- fallback: npm run build && npm test
 ```
 
-## Why Separate?
+## Rule
 
-Skills are shared. Your setup is yours. Keeping them apart means you can update skills without losing your notes, and share skills without leaking your infrastructure.
-
----
-
-Add whatever helps you do your job. This is your cheat sheet.
+Keep only local evaluation mechanics here.
+Evaluation standards belong in `AGENTS.md` and `SOUL.md`.

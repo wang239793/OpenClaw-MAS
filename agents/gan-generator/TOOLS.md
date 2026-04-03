@@ -1,40 +1,34 @@
-# TOOLS.md - Local Notes
+# TOOLS.md - Workspace Notes
 
-Skills define _how_ tools work. This file is for _your_ specifics — the stuff that is unique to your setup.
+This file is for `gan-generator`-specific local notes in the OpenClaw workspace.
 
-## What Goes Here
+## Use this file for
 
-Things like:
+- Dev server command and port conventions
+- Build, lint, and test commands
+- Locations of GAN feedback and state artifacts
+- Framework-specific run instructions
+- Known setup prerequisites for live evaluation
 
-- Camera names and locations
-- SSH hosts and aliases
-- Preferred voices for TTS
-- Speaker/room names
-- Device nicknames
-- Anything environment-specific
-
-## Examples
+## Suggested structure
 
 ```markdown
-### Cameras
+## Dev server
+- command: npm run dev
+- url: http://localhost:3000
 
-- living-room → Main area, 180° wide angle
-- front-door → Entrance, motion-triggered
+## Validation
+- build: npm run build
+- test: npm test
+- lint: npm run lint
 
-### SSH
-
-- home-server → 192.168.1.100, user: admin
-
-### TTS
-
-- Preferred voice: "Nova" (warm, slightly British)
-- Default speaker: Kitchen HomePod
+## GAN artifacts
+- spec: gan-harness/spec.md
+- state: gan-harness/generator-state.md
+- feedback: gan-harness/feedback/
 ```
 
-## Why Separate?
+## Rule
 
-Skills are shared. Your setup is yours. Keeping them apart means you can update skills without losing your notes, and share skills without leaking your infrastructure.
-
----
-
-Add whatever helps you do your job. This is your cheat sheet.
+Keep only local execution details here.
+Generator behavior belongs in `AGENTS.md` and `SOUL.md`.

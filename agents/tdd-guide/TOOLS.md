@@ -1,40 +1,33 @@
-# TOOLS.md - Local Notes
+# TOOLS.md - Workspace Notes
 
-Skills define _how_ tools work. This file is for _your_ specifics — the stuff that is unique to your setup.
+This file is for `tdd-guide`-specific operating notes that are local to this OpenClaw workspace.
 
-## What Goes Here
+## Use this file for
 
-Things like:
+- Preferred test commands in this environment
+- Package manager quirks
+- Known flaky suites or expensive test targets
+- Coverage commands and thresholds
+- Paths for unit, integration, and E2E suites
 
-- Camera names and locations
-- SSH hosts and aliases
-- Preferred voices for TTS
-- Speaker/room names
-- Device nicknames
-- Anything environment-specific
-
-## Examples
+## Suggested structure
 
 ```markdown
-### Cameras
+## Test commands
+- unit: npm test -- --runInBand
+- integration: npm run test:integration
+- e2e: npm run test:e2e
 
-- living-room → Main area, 180° wide angle
-- front-door → Entrance, motion-triggered
+## Coverage
+- command: npm run test:coverage
+- threshold: 80%
 
-### SSH
-
-- home-server → 192.168.1.100, user: admin
-
-### TTS
-
-- Preferred voice: "Nova" (warm, slightly British)
-- Default speaker: Kitchen HomePod
+## Notes
+- Use pnpm in this repo
+- E2E requires local database running
 ```
 
-## Why Separate?
+## Rule
 
-Skills are shared. Your setup is yours. Keeping them apart means you can update skills without losing your notes, and share skills without leaking your infrastructure.
-
----
-
-Add whatever helps you do your job. This is your cheat sheet.
+Keep only environment-specific execution notes here.
+Core TDD policy belongs in `AGENTS.md` and `SOUL.md`.

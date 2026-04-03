@@ -1,40 +1,34 @@
-# TOOLS.md - Local Notes
+# TOOLS.md - Workspace Notes
 
-Skills define _how_ tools work. This file is for _your_ specifics — the stuff that is unique to your setup.
+This file is for `code-reviewer`-specific local notes in the OpenClaw workspace.
 
-## What Goes Here
+## Use this file for
 
-Things like:
+- Preferred review commands in this repo
+- Base branch conventions for PR review
+- Lint, typecheck, and test commands used to validate findings
+- Known generated-code paths to ignore unless explicitly requested
+- Security or compliance review checkpoints specific to this environment
 
-- Camera names and locations
-- SSH hosts and aliases
-- Preferred voices for TTS
-- Speaker/room names
-- Device nicknames
-- Anything environment-specific
-
-## Examples
+## Suggested structure
 
 ```markdown
-### Cameras
+## Review commands
+- diff: git diff main...HEAD
+- lint: npm run lint
+- types: npm run typecheck
+- tests: npm test
 
-- living-room → Main area, 180° wide angle
-- front-door → Entrance, motion-triggered
+## Ignore by default
+- dist/
+- coverage/
 
-### SSH
-
-- home-server → 192.168.1.100, user: admin
-
-### TTS
-
-- Preferred voice: "Nova" (warm, slightly British)
-- Default speaker: Kitchen HomePod
+## Notes
+- Review migrations for rollback safety
+- Treat console logs as warnings unless test fixtures
 ```
 
-## Why Separate?
+## Rule
 
-Skills are shared. Your setup is yours. Keeping them apart means you can update skills without losing your notes, and share skills without leaking your infrastructure.
-
----
-
-Add whatever helps you do your job. This is your cheat sheet.
+Keep only local review mechanics here.
+The review policy itself lives in `AGENTS.md` and `SOUL.md`.

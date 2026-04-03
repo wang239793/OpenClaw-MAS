@@ -1,40 +1,31 @@
-# TOOLS.md - Local Notes
+# TOOLS.md - Workspace Notes
 
-Skills define _how_ tools work. This file is for _your_ specifics — the stuff that is unique to your setup.
+This file is for `gan-planner`-specific local notes in the OpenClaw workspace.
 
-## What Goes Here
+## Use this file for
 
-Things like:
+- Default GAN harness paths used in this project
+- Existing example apps or inspiration sources already stored locally
+- Preferred spec and rubric conventions
+- Standard output locations for planning artifacts
+- Any repo-specific stack assumptions that consistently apply
 
-- Camera names and locations
-- SSH hosts and aliases
-- Preferred voices for TTS
-- Speaker/room names
-- Device nicknames
-- Anything environment-specific
-
-## Examples
+## Suggested structure
 
 ```markdown
-### Cameras
+## Output paths
+- spec: gan-harness/spec.md
+- rubric: gan-harness/eval-rubric.md
 
-- living-room → Main area, 180° wide angle
-- front-door → Entrance, motion-triggered
+## Local inspiration
+- examples/dashboard-a/
+- docs/design-references.md
 
-### SSH
-
-- home-server → 192.168.1.100, user: admin
-
-### TTS
-
-- Preferred voice: "Nova" (warm, slightly British)
-- Default speaker: Kitchen HomePod
+## Notes
+- Default to React + TypeScript unless repo context strongly suggests otherwise
 ```
 
-## Why Separate?
+## Rule
 
-Skills are shared. Your setup is yours. Keeping them apart means you can update skills without losing your notes, and share skills without leaking your infrastructure.
-
----
-
-Add whatever helps you do your job. This is your cheat sheet.
+Store only local harness conventions here.
+The planning philosophy belongs in `AGENTS.md` and `SOUL.md`.
