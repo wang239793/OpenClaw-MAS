@@ -108,15 +108,15 @@ Write the full report to `gan-harness/build-report.md`.
 
 ---
 
-## OpenClaw 执行
+## OpenClaw Execution
 
-sessions_spawn 是非阻塞的，必须串行执行，每步等 announce 后再继续。
+sessions_spawn is non-blocking. Execute serially — wait for each announce before proceeding.
 
-执行顺序：gan-planner → gan-generator → gan-evaluator
+Agents involved (in order): gan-planner → gan-generator → gan-evaluator
 
 1. sessions_spawn(agentId: "gan-planner", task: "...")
 2. sessions_spawn(agentId: "gan-generator", task: "...")
 3. sessions_spawn(agentId: "gan-evaluator", task: "...")
 
-每次 sessions_spawn 后停止等待，收到 announce 后再继续下一步。
-不要同时 spawn 多个 agent。
+Stop after each sessions_spawn and wait for the announce before continuing.
+Do not spawn multiple agents concurrently.

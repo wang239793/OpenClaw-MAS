@@ -111,14 +111,14 @@ Then tell the user: "OpenClaw MAS is installed. You can now use `/skill <name>` 
 Invoke any workflow with `/skill <name>` in your OpenClaw chat:
 
 ```
-/skill tdd implement a login endpoint with JWT auth
-/skill code_review
-/skill code_review 42
-/skill build_fix
-/skill rust_review
-/skill gan_build build a real-time collaborative whiteboard
-/skill plan add payment integration
-/skill security_scan
+/skill cmd_tdd implement a login endpoint with JWT auth
+/skill cmd_code_review
+/skill cmd_code_review 42
+/skill cmd_build_fix
+/skill cmd_rust_review
+/skill cmd_gan_build build a real-time collaborative whiteboard
+/skill cmd_plan add payment integration
+/skill cmd_security_scan
 ```
 
 ---
@@ -129,55 +129,55 @@ Invoke any workflow with `/skill <name>` in your OpenClaw chat:
 
 | Skill | What it does |
 |-------|-------------|
-| `/skill tdd` | TDD: scaffold → RED → GREEN → REFACTOR → 80%+ coverage |
-| `/skill plan` | Create implementation plan before writing code |
-| `/skill code_review` | Review local changes or a PR (pass PR number as arg) |
-| `/skill e2e` | Generate and run E2E tests with Playwright |
-| `/skill refactor_clean` | Remove dead code, consolidate duplicates |
-| `/skill build_fix` | Incrementally fix build/type errors |
-| `/skill security_scan` | OWASP Top 10 security review |
-| `/skill db_review` | PostgreSQL schema and query review |
+| `/skill cmd_tdd` | TDD: scaffold → RED → GREEN → REFACTOR → 80%+ coverage |
+| `/skill cmd_plan` | Create implementation plan before writing code |
+| `/skill cmd_code_review` | Review local changes or a PR (pass PR number as arg) |
+| `/skill cmd_e2e` | Generate and run E2E tests with Playwright |
+| `/skill cmd_refactor_clean` | Remove dead code, consolidate duplicates |
+| `/skill cmd_build_fix` | Incrementally fix build/type errors |
+| `/skill cmd_security_scan` | OWASP Top 10 security review |
+| `/skill cmd_db_review` | PostgreSQL schema and query review |
 
 ### Multi-Agent Workflows
 
 | Skill | What it does |
 |-------|-------------|
-| `/skill gan_build` | Autonomous build loop: plan → implement → evaluate → repeat until score ≥ 7.0 |
-| `/skill gan_design` | Design quality loop focused on visual output |
-| `/skill santa_loop` | Two reviewers in parallel, both must approve |
-| `/skill orchestrate` | Custom multi-agent workflow |
-| `/skill devfleet` | Parallel agent fleet for concurrent tasks |
+| `/skill cmd_gan_build` | Autonomous build loop: plan → implement → evaluate → repeat until score ≥ 7.0 |
+| `/skill cmd_gan_design` | Design quality loop focused on visual output |
+| `/skill cmd_santa_loop` | Two reviewers in parallel, both must approve |
+| `/skill cmd_orchestrate` | Custom multi-agent workflow |
+| `/skill cmd_devfleet` | Parallel agent fleet for concurrent tasks |
 
 ### Language-Specific
 
 | Language | Build | Review | Test |
 |----------|-------|--------|------|
-| Rust | `/skill rust_build` | `/skill rust_review` | `/skill rust_test` |
-| Go | `/skill go_build` | `/skill go_review` | `/skill go_test` |
-| C++ | `/skill cpp_build` | `/skill cpp_review` | `/skill cpp_test` |
-| Kotlin | `/skill kotlin_build` | `/skill kotlin_review` | `/skill kotlin_test` |
-| Java | `/skill java_build` | `/skill java_review` | — |
-| Python | — | `/skill python_review` | — |
-| Flutter | — | `/skill flutter_review` | — |
-| PyTorch | `/skill pytorch_build` | — | — |
+| Rust | `/skill cmd_rust_build` | `/skill cmd_rust_review` | `/skill cmd_rust_test` |
+| Go | `/skill cmd_go_build` | `/skill cmd_go_review` | `/skill cmd_go_test` |
+| C++ | `/skill cmd_cpp_build` | `/skill cmd_cpp_review` | `/skill cmd_cpp_test` |
+| Kotlin | `/skill cmd_kotlin_build` | `/skill cmd_kotlin_review` | `/skill cmd_kotlin_test` |
+| Java | `/skill cmd_java_build` | `/skill cmd_java_review` | — |
+| Python | — | `/skill cmd_python_review` | — |
+| Flutter | — | `/skill cmd_flutter_review` | — |
+| PyTorch | `/skill cmd_pytorch_build` | — | — |
 
 ### Docs & Planning
 
 | Skill | What it does |
 |-------|-------------|
-| `/skill update_docs` | Update project documentation |
-| `/skill prp_prd` | Generate product requirements doc |
-| `/skill prp_plan` | Generate implementation plan |
-| `/skill prp_implement` | Implement from a PRP spec |
+| `/skill cmd_update_docs` | Update project documentation |
+| `/skill cmd_prp_prd` | Generate product requirements doc |
+| `/skill cmd_prp_plan` | Generate implementation plan |
+| `/skill cmd_prp_implement` | Implement from a PRP spec |
 
 ### Session & Learning
 
 | Skill | What it does |
 |-------|-------------|
-| `/skill save_session` | Save current session state |
-| `/skill resume_session` | Resume previous session |
-| `/skill learn` | Extract reusable patterns from session |
-| `/skill skill_create` | Generate new skill from git history |
+| `/skill cmd_save_session` | Save current session state |
+| `/skill cmd_resume_session` | Resume previous session |
+| `/skill cmd_learn` | Extract reusable patterns from session |
+| `/skill cmd_skill_create` | Generate new skill from git history |
 
 ---
 

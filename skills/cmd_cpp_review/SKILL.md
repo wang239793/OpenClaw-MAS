@@ -137,9 +137,9 @@ Recommendation: FAIL: Block merge until CRITICAL issue is fixed
 
 ---
 
-## OpenClaw 执行
+## OpenClaw Execution
 
-通过 sessions_spawn 调用专家 agent：
+Invoke the specialist agent via sessions_spawn:
 
 ```
 sessions_spawn(
@@ -148,4 +148,4 @@ sessions_spawn(
 )
 ```
 
-等待 cpp-reviewer 的 announce 结果，然后返回给用户。
+Wait for cpp-reviewer's announce result, then return to the user.
