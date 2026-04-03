@@ -1,4 +1,4 @@
-# ECC · OpenClaw 集成
+# OpenClaw MAS
 
 将 Everything Claude Code (ECC) 集成到 OpenClaw，通过 Telegram、WhatsApp、Discord 等任意渠道使用 ECC 的全部能力。
 
